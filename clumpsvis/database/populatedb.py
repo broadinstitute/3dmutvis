@@ -1,18 +1,32 @@
 import psycopg2
+import urllib2
 
 from gzip import GzipFile
 
 
-PDB2UNIPROT_FILT = '../clumps2/res/huniprot2pdb.run6.filt.txt.gz'
-PDB2UNIPROT_ALL = '../clumps2/res/huniprot2pdb.run6.txt.gz'
-
 con = psycopg2.connect('dbname=clumps')
 cur = con.cursor()
+
+####  GET EXTERNAL DATA AND CONFIGURE PATHS
+
+PDB2UNIPROT_FILT = 'data/uniprot2pdbmap/huniprot2pdb.run6.filt.txt.gz'
+PDB2UNIPROT_ALL = 'data/uniprot2pdbmap/huniprot2pdb.run6.txt.gz'
+MUTATIONS = 'data/mutations/pancan4700.v1f.oncotator.gp.gz'
+
+fo = file('data/uniprot/uniprot_sprot.fasta.gz', 'w')
+fo.write(urllib2.urlopen('ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz').read())
+fo.close()
+
+for fn in ['Pfam-A.clans.tsv.gz', 'Pfam-A.regions.uniprot.tsv.gz']:
+    fo = file('data/pfam/%s' % fn, 'w')
+    fo.write(urllib2.urlopen('ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/%s' % fn).read())
+    fo.close()
+
 
 
 ####  UNIPROT
 
-if 0:
+if 1:
     cur.execute("drop table if exists uniprot")
     cur.execute("create table uniprot (u1 varchar(32) primary key, entry varchar(16), longname varchar(128), aaseq text, aalen int)")
     fi = GzipFile('dat/uniprot/uniprot_sprot.fasta.gz')
@@ -46,7 +60,7 @@ if 0:
 
 ####  UNIPROT-PDB maps
 
-if 0:
+if 1:
     cur.execute("drop table if exists pdb2uniprot_filt")
     cur.execute("create table pdb2uniprot_filt (u1 varchar(32), u2 varchar(32), pdbchain char(6), mapstat text, resmap text, rowid int primary key, mapfirst int, maplast int)")
     fi = GzipFile(PDB2UNIPROT_FILT)
@@ -62,7 +76,7 @@ if 0:
     cur.execute("create index on pdb2uniprot_filt (u1)")
 
 
-if 0:
+if 1:
     cur.execute("drop table if exists pdb2uniprot_all")
     cur.execute("create table pdb2uniprot_all (u1 varchar(32), u2 varchar(32), pdbchain varchar(8), mapstat text, resmap text, rowid int primary key, mapfirst int, maplast int)")
     fi = GzipFile(PDB2UNIPROT_ALL)
@@ -79,7 +93,7 @@ if 0:
 
 ####  2-D DOMAIN STRUCTURE
 
-if 0:
+if 1:
     cur.execute("drop table if exists pfam")
     cur.execute("create table pfam (id char(7) primary key, shortname varchar(16), longname varchar(128))")
     #cur.execute("create table interpro (id varchar(16) primary key, shortname varchar(16), longname varchar(128))")
@@ -93,7 +107,7 @@ if 0:
         cur.execute("insert into pfam (id, shortname, longname) values ('%s','%s','%s')" % (l[0],l[3],l[4].replace("'", "")))
     fi.close()
 
-if 0:
+if 1:
     cur.execute("drop table if exists proteindomains")
     cur.execute("create table proteindomains (u1 varchar(32), source varchar(8), extid varchar(16), sstart int, send int)")
     cur.execute("select u1, true from uniprot")
@@ -112,10 +126,35 @@ if 0:
     
 
 ####  MUTATIONS
-if 0:
-    cur.execute("drop table if exists muts5k")
-    cur.execute("create table muts5k (patient varchar(32), chr int, pos bigint, refbase char(1), newbase char(1), u1 varcha, )")
-
+if 1:
+    cur.execute("drop table if exists mutations")
+    cur.execute("create table mutations (patient varchar(32), ttype varchar(32), chr int, chrpos bigint, refbase char(1), newbase char(1), u1 varchar(32), aachange varchar(8), aachangepos int)")
+    fi = GzipFile(MUTATIONS)
+    hdr = fi.readline().strip().split('\t')
+    ## get header indices
+    iPat = hdr.index('patient')
+    iTtype = hdr.index('ttype')
+    iChr = hdr.index('chr')
+    iChrpos = hdr.index('pos')
+    iRefbase = hdr.index('refbase')
+    iNewbase = hdr.index('newbase')
+    iProtchange = hdr.index('uniprot_change')
+    dnalib = set(['A','C','G','T'])
+    while 1:
+        l = fi.readline()
+        if not l:
+            break
+        l = l.rstrip('\n').split('\t')
+        if not l[iProtchange]:
+            continue
+        if l[iRefbase] not in dnalib or l[iNewbase] not in dnalib:
+            continue
+        for u1_aachange in l[iProtchange].split('; '):
+            u1,aachange = u1_aachange.split(':')
+            aachangepos = int(aachange[1:-1])
+            cur.execute("insert into mutations (patient, ttype, chr, chrpos, refbase, newbase, u1, aachange, aachangepos) values ('%s', '%s', %s, %s, '%s', '%s', '%s', '%s', %d)" % (l[iPat], l[iTtype], l[iChr], l[iChrpos], l[iRefbase], l[iNewbase], u1, aachange, aachangepos))
+    cur.execute("create index on mutations (u1)")
+    cur.execute("create index on mutations (ttype)")
 
 
 
