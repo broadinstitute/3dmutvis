@@ -1,3 +1,9 @@
+"""
+This script downloads open-access data and using that data and some project-specific datasets, populates postgresql database that's needed for 3dMutVis.
+There should be a postgresql database acccessible on server $PGHOST, port $PGPORT accessible by user $PGUSER with password $PGPASSWORD (all these are environment variables that should be set; otherwise, modify the psycopg2.connect() arguments below).
+"""
+
+import os.path
 import psycopg2
 import urllib2
 
@@ -13,15 +19,20 @@ PDB2UNIPROT_FILT = 'data/uniprot2pdbmap/huniprot2pdb.run6.filt.txt.gz'
 PDB2UNIPROT_ALL = 'data/uniprot2pdbmap/huniprot2pdb.run6.txt.gz'
 MUTATIONS = 'data/mutations/pancan4700.v1f.oncotator.gp.gz'
 
-fo = file('data/uniprot/uniprot_sprot.fasta.gz', 'w')
-fo.write(urllib2.urlopen('ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz').read())
-fo.close()
+for fn in [PDB2UNIPROT_FILT, PDB2UNIPROT_ALL, MUTATIONS]:
+    if not os.path.exists(fn):
+        raise Exception('You are missing essential datasets (%s) needed for populating the database. You can obtain them from https://drive.google.com/drive/folders/0B8m7y_bC59q8eFByVkVmQ1lMOFk?usp=sharing . Exiting.' % fn)
 
-for fn in ['Pfam-A.clans.tsv.gz', 'Pfam-A.regions.uniprot.tsv.gz']:
-    fo = file('data/pfam/%s' % fn, 'w')
-    fo.write(urllib2.urlopen('ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/%s' % fn).read())
+if not os.path.exists('data/uniprot/uniprot_sprot.fasta.gz'):
+    fo = file('data/uniprot/uniprot_sprot.fasta.gz', 'w')
+    fo.write(urllib2.urlopen('ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz').read())
     fo.close()
 
+for fn in ['Pfam-A.clans.tsv.gz', 'Pfam-A.regions.uniprot.tsv.gz']:
+    if not os.path.exists('data/pfam/%s' % fn):
+        fo = file('data/pfam/%s' % fn, 'w')
+        fo.write(urllib2.urlopen('ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/%s' % fn).read())
+        fo.close()
 
 
 ####  UNIPROT
@@ -29,7 +40,7 @@ for fn in ['Pfam-A.clans.tsv.gz', 'Pfam-A.regions.uniprot.tsv.gz']:
 if 1:
     cur.execute("drop table if exists uniprot")
     cur.execute("create table uniprot (u1 varchar(32) primary key, entry varchar(16), longname varchar(128), aaseq text, aalen int)")
-    fi = GzipFile('dat/uniprot/uniprot_sprot.fasta.gz')
+    fi = GzipFile('data/uniprot/uniprot_sprot.fasta.gz')
     idline = None
     seq = ''
     while 1:
@@ -98,7 +109,7 @@ if 1:
     cur.execute("create table pfam (id char(7) primary key, shortname varchar(16), longname varchar(128))")
     #cur.execute("create table interpro (id varchar(16) primary key, shortname varchar(16), longname varchar(128))")
     id2names = {}
-    fi = GzipFile('dat/pfam/Pfam-A.clans.tsv.gz')
+    fi = GzipFile('data/pfam/Pfam-A.clans.tsv.gz')
     while 1:
         l = fi.readline()
         if not l:
@@ -112,7 +123,7 @@ if 1:
     cur.execute("create table proteindomains (u1 varchar(32), source varchar(8), extid varchar(16), sstart int, send int)")
     cur.execute("select u1, true from uniprot")
     human_u1 = dict(cur.fetchall())
-    fi = GzipFile('dat/pfam/Pfam-A.regions.uniprot.tsv.gz')
+    fi = GzipFile('data/pfam/Pfam-A.regions.uniprot.tsv.gz')
     x = fi.readline()
     while 1:
         l = fi.readline()
