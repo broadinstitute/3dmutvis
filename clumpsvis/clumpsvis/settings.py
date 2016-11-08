@@ -78,9 +78,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'clumps',
         'USER': 'clumps',
-        'PASSWORD': 'clumps',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'PASSWORD': 'clumps123!',
+        'HOST': 'cga-clumps',
+        'PORT': 8888,
     }
 }
 
