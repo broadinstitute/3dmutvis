@@ -101,7 +101,10 @@ if 1:
         if not l:
             break
         l = l.rstrip('\n').split('\t')
-        cur.execute("insert into uniprot2pdb_filt (rowid, u1, u2, pdbchain, mapstat, resmap, mapfirst, maplast) values (%d, '%s', '%s', '%s', '%s', '%s', %s, %s)" % tuple([lc] + l + [l[4].split(':')[0], l[4].rsplit(' ',1)[-1].split(':')[0]]))
+        mapfirst = l[4].split(':')[0]
+        maplast = l[4].rsplit(' ',1)[-1].split(':')[0]
+        resmap = '{' + l[4].replace(' ', ',') + '}'
+        cur.execute("insert into uniprot2pdb_filt (rowid, u1, u2, pdbchain, mapstat, resmap, mapfirst, maplast) values (%d, '%s', '%s', '%s', '%s', '%s', %s, %s)" % tuple([lc] + l[:4] + [resmap, mapfirst, maplast]))
         lc += 1
     cur.execute("create index on uniprot2pdb_filt (u1,u2,pdbchain,mapfirst)")
     cur.execute("create index on uniprot2pdb_filt (u1)")
