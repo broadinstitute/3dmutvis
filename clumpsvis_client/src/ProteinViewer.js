@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import jquery from "jquery";
 
 let viewerStyle = {
- 	marginLeft: 200,
-	 position:"absolute", 
-	width: "60%",
+	marginTop: 200,
+	width: "100%",
 	height: 600 
 }
 

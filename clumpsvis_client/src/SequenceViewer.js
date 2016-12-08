@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nucleotide from './Nucleotide'
+import AminoAcid from './AminoAcid'
 import Paper from 'material-ui/Paper';
 
 let seqStyle = {
@@ -13,11 +13,10 @@ class SequenceViewer extends Component {
 	}
 	render() {
 		return (
-			<Paper style={seqStyle}>
 				<svg  width="100%" height="500">
 				<g>
 				{this.props.sequence.split('').map((nucleotide, index) =>
-	 				<Nucleotide
+	 				<AminoAcid
 	            		type={nucleotide}
 	            		position={index}
 			            key={index}
@@ -26,8 +25,6 @@ class SequenceViewer extends Component {
 			        )}
 				</g>
 			</svg>
-			</Paper>
-			
 		);
 	}
 }
