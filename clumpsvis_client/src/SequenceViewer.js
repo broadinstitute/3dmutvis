@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import Nucleotide from './Nucleotide'
+import Paper from 'material-ui/Paper';
 
-
+let seqStyle = {
+	width: "60%",
+	marginLeft:"20%"
+}
 
 class SequenceViewer extends Component {
 	onNucleotideClick(){
@@ -9,7 +13,8 @@ class SequenceViewer extends Component {
 	}
 	render() {
 		return (
-			<svg  width="100%" height="500">
+			<Paper style={seqStyle}>
+				<svg  width="100%" height="500">
 				<g>
 				{this.props.sequence.split('').map((nucleotide, index) =>
 	 				<Nucleotide
@@ -21,6 +26,7 @@ class SequenceViewer extends Component {
 			        )}
 				</g>
 			</svg>
+			</Paper>
 			
 		);
 	}

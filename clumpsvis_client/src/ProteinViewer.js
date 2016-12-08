@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import jquery from "jquery";
 
-let defaultProps = { width: "100%", height: 600 };
+let viewerStyle = {
+ 	marginLeft: 200,
+	 position:"absolute", 
+	width: "60%",
+	height: 600 
+}
+
 let data = `
 HEADER    TRANSFERASE/DNA                         13-AUG-13   4M8O              
 TITLE     TERNARY COMPLEX OF DNA POLYMERASE EPSILON WITH AN INCOMING DATP       
@@ -11482,7 +11488,7 @@ class ProteinViewer extends Component {
   }
   render() {
   	return(
-  			<div style={defaultProps} ref="viewer">
+  			<div style={viewerStyle} ref="viewer">
   			</div>
   		)
   }
