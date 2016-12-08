@@ -5,7 +5,8 @@ const sectionStyle = {
     marginLeft: 40,
     marginRight: 10,
     marginTop: 100,
-    borderWidth:1
+    borderWidth:1,
+    color: '#999'
 }
 const textStyle = {
 	cursor :"pointer",
@@ -14,8 +15,7 @@ const textStyle = {
 const headerStyle = {
     background: '#eee',
     borderRadius: 2,
-    marginLeft:10,
-    marginRight:10,
+
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 2,
@@ -36,7 +36,7 @@ class Section extends Component {
 		return (
             <Paper style={sectionStyle}>
                 <div style={headerStyle}>
-                    <h4>{this.props.title}</h4>
+                    <h8>{this.props.title}</h8>
                 </div>
                 <div style={contentStyle}>
                     {this.props.children}
