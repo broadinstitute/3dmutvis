@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import AminoAcid from './AminoAcid'
-import Paper from 'material-ui/Paper';
 
 let seqStyle = {
 	width: "60%",
