@@ -32,10 +32,12 @@ class ClumpsView extends Component {
   	return(
         <div>
             <ClumpsAppBar />
-            <Section title="structure">
+            <Section title="3D">
               <ProteinViewer />
             </Section>
-            <DomainViewer />
+            <Section title="domains and structures">
+              <DomainViewer />
+            </Section>
             <Section title="mutations">
               <LollipopChart sequence={sequence} {...options} />
             </Section>

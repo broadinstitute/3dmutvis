@@ -10,7 +10,7 @@ class LollipopChart extends Component {
     constructor(props){
         super(props)
         this.nr_mutations = [0,10,0,10,100,2,2,0,0,0,0,77,3,0,0,0,0,0,0,20,2,1,0,0,0,2]
-        this.width = 1400;
+        this.width = 1200;
         this.height = Math.max.apply(Math,this.nr_mutations);
         this.X = scaleLinear()
                 .domain([0,this.nr_mutations.length])
@@ -38,13 +38,13 @@ class LollipopChart extends Component {
 			        )
 		return (
             <svg ref='mutations' width="100%" height="110">
-				<g>
-                    {lollipops}
+				<g>                    
                     <text fontSize={10} x={this.X(0)-5} y={102+this.Y(this.height)} textAnchor="end">{this.height}</text>
                     <text fontSize={10}  x={this.X(0)-5} y={100} textAnchor="end">0</text>
                     <line x1={this.X(0)} x2={this.width} y1="100" y2="100" strokeWidth={1} stroke='#000' />
                     <line x1={this.X(0)} x2={this.X(0)} y1="100" y2={102+this.Y(this.height)} strokeWidth={1} stroke='#000' />
-				</g>
+                    {lollipops}
+                </g>
 			</svg>
 		);
 	}
