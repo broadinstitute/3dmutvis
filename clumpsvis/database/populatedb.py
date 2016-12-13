@@ -18,8 +18,10 @@ cur = con.cursor()
 UNIPROT2PDB_FILT = 'data/uniprot2pdbmap/huniprot2pdb.run6.filt.txt.gz'
 UNIPROT2PDB_ALL = 'data/uniprot2pdbmap/huniprot2pdb.run6.txt.gz'
 MUTATIONS = 'data/mutations/pancan4700.v1f.oncotator.gp.gz'
+CLUMPSCORES = 'data/clumpscores.tar.gz'
 
-for fn in [UNIPROT2PDB_FILT, UNIPROT2PDB_ALL, MUTATIONS]:
+
+for fn in [UNIPROT2PDB_FILT, UNIPROT2PDB_ALL, MUTATIONS, CLUMPSCORES]:
     if not os.path.exists(fn):
         raise Exception('You are missing essential datasets (%s) needed for populating the postgresql database. You can obtain them from https://drive.google.com/drive/folders/0B8m7y_bC59q8eFByVkVmQ1lMOFk . Exiting.' % fn)
 
@@ -35,6 +37,8 @@ for fn in ['Pfam-A.clans.tsv.gz', 'Pfam-A.regions.uniprot.tsv.gz']:
         fo = file('data/pfam/%s' % fn, 'w')
         fo.write(urllib2.urlopen('ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/%s' % fn).read())
         fo.close()
+
+os.system('tar xzf data/clumpscores.tar.gz -C data/')
 
 ## optional PhosphoSitePlus data
 PSPFILES = []
@@ -55,7 +59,7 @@ print 'Finished fetching public data.'
 
 ####  UNIPROT
 
-if 1:
+if 0:
     cur.execute("drop table if exists uniprot")
     cur.execute("create table uniprot (u1 varchar(32) primary key, entry varchar(16), longname varchar(128), aaseq text, aalen int)")
     fi = GzipFile('data/uniprot/uniprot_sprot.fasta.gz')
@@ -91,7 +95,7 @@ if 1:
 
 ####  UNIPROT-PDB maps
 
-if 1:
+if 0:
     cur.execute("drop table if exists uniprot2pdb_filt")
     cur.execute("create table uniprot2pdb_filt (rowid int primary key, u1 varchar(32), u2 varchar(32), pdbchain char(6), mapstat text, resmap text, mapfirst int, maplast int)")
     fi = GzipFile(UNIPROT2PDB_FILT)
@@ -112,7 +116,7 @@ if 1:
     print 'Finished populating uniprot2pdb_filt'
 
 
-if 1:
+if 0:
     cur.execute("drop table if exists uniprot2pdb_all")
     cur.execute("create table uniprot2pdb_all (rowid int primary key, u1 varchar(32), u2 varchar(32), pdbchain varchar(8), mapstat text, resmap text, mapfirst int, maplast int)")
     fi = GzipFile(UNIPROT2PDB_ALL)
@@ -131,7 +135,7 @@ if 1:
 
 ####  2-D DOMAIN STRUCTURE
 
-if 1:
+if 0:
     cur.execute("drop table if exists pfam")
     cur.execute("create table pfam (pfamid char(7) primary key, shortname varchar(16), longname varchar(128))")
     #cur.execute("create table interpro (id varchar(16) primary key, shortname varchar(16), longname varchar(128))")
@@ -165,7 +169,7 @@ if 1:
     print 'Finished populating Pfam'
 
 ####  MUTATIONS
-if 1:
+if 0:
     cur.execute("drop table if exists mutations")
     cur.execute("create table mutations (id int primary key, patient varchar(32), ttype varchar(32), chr int, chrpos bigint, refbase char(1), newbase char(1), u1 varchar(32), aachange varchar(8), aachangepos int)")
     fi = GzipFile(MUTATIONS)
@@ -210,7 +214,7 @@ if 1:
 
 ####  PHOSPHOSITEPLUS
 
-if 1:
+if 0:
     cur.execute("drop table if exists phosphositeplus")
     cur.execute("create table phosphositeplus (id int primary key, u1 varchar(32), aapos int, residue char(1), modtype varchar(4))")
     lc = 0
@@ -242,7 +246,25 @@ if 1:
             lc += 1
     cur.execute("create index on phosphositeplus (u1)")
     con.commit()
-            
+
+if 1:
+    cur.execute("drop table if exists clumpscores")
+    cur.execute("create table clumpscores (id int primary key, u1 varchar(32), u2 varchar(32), pdbchain varchar(8), mapfirst int, u1resid int, score double precision, percentile double precision, npat double precision)")
+    cnt = 0
+    for fn in os.listdir('data/clumpscores/'):
+        if not fn.endswith('residscores.txt'):
+            continue
+        g,u1,u2,pdbch,x1,st,x2 = fn.split('_')
+        fi = file('data/clumpscores/%s' % fn)
+        x = fi.readline()  ## header
+        while 1:
+            l = fi.readline()
+            if not l:
+                break
+            l = l.split()
+            cur.execute("insert into clumpscores values (%d, '%s', '%s', '%s', %s, %s, %s, %s, %s)" % (cnt, u1, u2, pdbch, st, l[0], l[1], l[2], l[3]))
+            cnt += 1
+
 
 con.commit()
 cur.close()
