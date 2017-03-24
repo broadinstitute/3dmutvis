@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import ClumpsAppBar from './ClumpsAppBar';
-import Login from './Login/Login';
+import Login from './Login';
 
 class App extends Component {
-    let currentLocation = this.props.location.pathname
+  
+  render() {
+    
+    const currentLocation = this.props.location.pathname
+    console.log(currentLocation)
     let renderappbar = null
     if (currentLocation!=='/' && currentLocation!=='/login'){
-      renderappbar = <KurtAppBar />
+      renderappbar = <ClumpsAppBar />
     }
     return (
       <div>

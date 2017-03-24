@@ -1,3 +1,52 @@
+import React, { Component } from 'react';
+import jquery from "jquery";
+
+let wrapperStyle = {
+	position: 'relative',
+}
+let viewerStyle = {
+	width: "100%",
+	height: 400 
+}
+
+class ProteinViewer extends Component {
+  constructor(props){
+		super(props)
+
+  }
+  componentDidMount(){
+	let config = { backgroundColor: 'white' };
+	let viewer = window.$3Dmol.createViewer( jquery(this.refs.viewer), config );
+	viewer.addModel(data, 'pdb');
+  	let colorAsSnake = function(atom) {
+
+    	 return atom.resi % 5 ? 'white': 'red'
+
+  	};
+	viewer.setStyle({chain: "A"}, {cartoon: {color: "spectrum"}});  /* style all atoms */
+	//viewer.setStyle({resi:[404,405,406,407]},{stick:{color:"red"}})
+	//viewer.addResLabels({resi: [404,405,406,407], atom: 'CA'});
+	//viewer.addSurface("VDW",{opacity:0.6, colorfunc:colorAsSnake});
+    viewer.setClickable({chain:"A"}, true, function(event){ console.log("HI", event); });
+
+    viewer.zoomTo();                                      /* set camera */
+    viewer.render();
+    window.viewer = viewer;                                     /* render scene */
+  }
+  render() {
+  	return(
+		  <div style={wrapperStyle} >
+  			<div style={viewerStyle} ref="viewer">
+  			</div>
+		</div>
+  		)
+  }
+}
+
+export default ProteinViewer;
+
+
+
 let data = `
 HEADER    TRANSFERASE/DNA                         13-AUG-13   4M8O              
 TITLE     TERNARY COMPLEX OF DNA POLYMERASE EPSILON WITH AN INCOMING DATP       
