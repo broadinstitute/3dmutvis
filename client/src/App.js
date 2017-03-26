@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import ClumpsAppBar from './ClumpsAppBar';
-import Login from './Login';
+import MainAppBar from './components/MainAppBar';
+import Login from './views/Login';
 
 class App extends Component {
   
@@ -10,7 +10,7 @@ class App extends Component {
     console.log(currentLocation)
     let renderappbar = null
     if (currentLocation!=='/' && currentLocation!=='/login'){
-      renderappbar = <ClumpsAppBar />
+      renderappbar = <MainAppBar />
     }
     return (
       <div>

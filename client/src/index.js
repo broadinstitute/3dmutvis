@@ -9,9 +9,9 @@ import {deepPurpleA200, darkBlack,fullBlack, white,cyan300, grey300} from 'mater
 
 
 import App from './App';
-import Login from './Login';
-import ClumpsView from './ClumpsView';
-import Search from './Search';
+import Login from './views/Login';
+//import Analyze from './views/Analyze';
+import Search from './views/Search';
 
 import ApplicationStore from './ApplicationStore';
 
@@ -51,7 +51,6 @@ ReactDOM.render(
                 <Router history={hashHistory}>
                     <Route path='/' component={App}>
                         <Route path='/search' component={Search} />
-                        <Route path='/clumpsview' component={ClumpsView} />
                         <Route path='/login' component={Login} />
                     </Route>
                 </Router>

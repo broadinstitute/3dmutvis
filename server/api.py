@@ -1,15 +1,28 @@
-from flask import Flask
+import flask
+from flask import Flask, jsonify
 from flask_restplus import Resource, Api
+import psycopg2
+import pandas as pd
 
 app = Flask(__name__)
 api = Api(app)
 
+def get_db_conn():
+  conn = getattr(flask.g, '_database', None)
+  if conn is None:
+	conn = flask.g._database = psycopg2.connect("dbname='clumps' host='localhost'")
+  return conn
+
 
 # endpoints
-@api.route('/genesymbols/<string:letters>')
+@api.route('/genes/<string:gene>')
 class GeneSymbols(Resource):
-    def get(self, letters):
-        return [{'symbol':'KRAS','name':'Kann Richtig Abgehen. Super!'},{'symbol':'CDK2','name':'cyclin-dependent kinase 2'}]
+    def get(self, gene):
+        db = get_db_conn()
+        SQL = '''SELECT * FROM hgnc where (symbol ILIKE '{}%' OR previous_symbols ILIKE '%{}%'  OR synonyms ILIKE '%{}%');'''
+        data = pd.read_sql(SQL.format(gene, gene, gene), db)
+        r = data.to_json(orient = 'records')
+        return flask.Response(r, mimetype='application/json')
 
 @api.route('/aascores/<string:scoretype>')
 class AAScores(Resource):
@@ -47,4 +60,4 @@ class Mutations(Resource):
         return []
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host = '0.0.0.0', port = 5000)

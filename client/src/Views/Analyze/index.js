@@ -1,1 +1,1 @@
-export {default} from './ClumpsView';
+export {default} from './Analyze';

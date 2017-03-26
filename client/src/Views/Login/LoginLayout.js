@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import redlogo from '../logo_login.svg'
+import redlogo from '../../svg/logo_login.svg'
 import {observer} from 'mobx-react';
 import {inject} from 'mobx-react';
 import { Link } from 'react-router'
@@ -71,7 +71,7 @@ export default class LoginLayout extends React.Component {
     let password = this.passwordInput.input.value
     console.log(this.props.users)
     for (var user of this.props.users) {
-      if(user.cwid == cwid && user.password == password){
+      if(user.cwid === cwid && user.password === password){
         alert("needs routing....")
       }
     }

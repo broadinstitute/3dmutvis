@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="347px" height="301px" viewBox="0 0 347 301" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-132.000000, -30.000000)">
+            <g id="logo_login" transform="translate(111.000000, 0.000000)">
+                <path d="M248.867557,263.083546 C203.280394,439.194464 363.288318,224.87489 363.288318,177.742125 C363.288318,130.609359 312.060399,92.4007034 248.867557,92.4007034 C185.674716,92.4007034 134.446797,130.609359 134.446797,177.742125 C134.446797,224.87489 294.454721,86.9726271 248.867557,263.083546 Z" id="Oval" fill="#4DD0E1" transform="translate(248.867557, 211.916752) rotate(9.000000) translate(-248.867557, -211.916752) "></path>
+                <path d="M146.55364,198.191353 C100.966477,374.302272 260.9744,159.982697 260.9744,112.849932 C260.9744,65.7171665 209.746481,27.5085108 146.55364,27.5085108 C83.3607986,27.5085108 12.27775,43.6852966 32.1328791,112.849932 C51.9880082,182.014567 192.140803,22.0804346 146.55364,198.191353 Z" id="Oval" fill="#7C4DFF" transform="translate(144.857177, 147.024559) rotate(196.000000) translate(-144.857177, -147.024559) "></path>
+            </g>
+            <text id="view" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" font-size="48" font-weight="normal" fill="#000000">
+                <tspan x="283.0625" y="156">view</tspan>
+            </text>
+            <text id="clumps" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" font-size="48" font-weight="normal" fill="#FFFFFF">
+                <tspan x="171.1875" y="229">clumps</tspan>
+                <tspan x="339" y="284"></tspan>
+                <tspan x="339" y="339"></tspan>
+            </text>
+        </g>
+    </g>
+</svg>

@@ -2,12 +2,15 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
-  },
+  "proxy": "http://0.0.0.0:5000",
   "devDependencies": {
     "custom-react-scripts": "0.0.23"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-autosuggest": "^9.0.0",
+    "react-dom": "^15.4.2",
+    "react-flexbox-grid": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

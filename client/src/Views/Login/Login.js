@@ -5,7 +5,7 @@ import './login.css';
 
 import LoginStore from './LoginStore';
 import LoginLayout from './LoginLayout';
-const mountNode = document.getElementById('root');
+
 const loginStore = new LoginStore();
 loginStore.initializeDummyData();
 
