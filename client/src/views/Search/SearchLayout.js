@@ -13,7 +13,8 @@ import {Link} from 'react-router';
 const cardStyle = {
   marginRight: '10px',
   marginBottom: '10px',
-  backgroundColor: '#F5F5F5'
+  backgroundColor: '#F5F5F5',
+  textDecoration: 'none'
 }
 const buttonRight = {
    width: '100%', 
@@ -71,12 +72,13 @@ export default class SearchLayout extends Component {
         </Row>
         <Row>
             {this.state.searchResults.map(ele=>{ return(
-              <Link to="analyze" params={{ uniprot: "hello" }}>
-              <Card style={cardStyle}>
-                <CardHeader title={ele.symbol} />
-                <CardText>{ele.name}</CardText>
-              </Card>
-              </Link>)})}
+              <Link style={cardStyle} to={`/analyze/${ele.uniprot_id}`}>
+                <Card>
+                  <CardHeader title={ele.symbol} /> 
+                  <CardText>{ele.name}</CardText>
+                </Card>
+              </Link>
+              )})}
         </Row>
       </Grid>
     );
