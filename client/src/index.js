@@ -10,7 +10,7 @@ import {deepPurpleA200, darkBlack,fullBlack, white,cyan300, grey300} from 'mater
 
 import App from './App';
 import Login from './views/Login';
-//import Analyze from './views/Analyze';
+import Analyze from './views/Analyze';
 import Search from './views/Search';
 
 import ApplicationStore from './ApplicationStore';
@@ -52,6 +52,7 @@ ReactDOM.render(
                     <Route path='/' component={App}>
                         <Route path='/search' component={Search} />
                         <Route path='/login' component={Login} />
+                        <Route path='/analyze/:uniprot' component={Analyze} />
                     </Route>
                 </Router>
             </Provider>

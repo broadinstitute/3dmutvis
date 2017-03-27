@@ -1,12 +1,11 @@
 import React from 'react';
 import {Provider} from 'mobx-react'
 
-import './login.css';
 
 import AnalyzeStore from './AnalyzeStore';
 import AnalyzeLayout from './AnalyzeLayout';
 
-const analyzeStore = new analyzeStore();
+const analyzeStore = new AnalyzeStore();
 analyzeStore.initializeDummyData();
 
 export default class Analyze extends React.Component {

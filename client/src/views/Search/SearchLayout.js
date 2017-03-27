@@ -8,6 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {fullBlack} from 'material-ui/styles/colors';
 //import SearchResultList from './SearchResultList';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import {Link} from 'react-router';
 
 const cardStyle = {
   marginRight: '10px',
@@ -29,7 +30,7 @@ export default class SearchLayout extends Component {
       filter: value
     });
 
-    if (value!=''){
+    if (value!='' & value.length>2){
       this.setState({
         styleSearchBox:{paddingTop:'2%'},
         searchOffset: 0
@@ -70,17 +71,12 @@ export default class SearchLayout extends Component {
         </Row>
         <Row>
             {this.state.searchResults.map(ele=>{ return(
+              <Link to="analyze" params={{ uniprot: "hello" }}>
               <Card style={cardStyle}>
                 <CardHeader title={ele.symbol} />
                 <CardText>{ele.name}</CardText>
-
-                  <CardActions style={buttonRight}>
-    <IconButton
-      iconClassName="material-icons"
-    >
-      remove_red_eye
-    </IconButton>                  </CardActions>
-              </Card>)})}
+              </Card>
+              </Link>)})}
         </Row>
       </Grid>
     );
