@@ -41,8 +41,8 @@ class LollipopChart extends Component {
 				<g>                    
                     <text fontSize={10} x={this.X(0)-5} y={102+this.Y(this.height)} textAnchor="end">{this.height}</text>
                     <text fontSize={10}  x={this.X(0)-5} y={100} textAnchor="end">0</text>
-                    <line x1={this.X(0)} x2={this.width} y1="100" y2="100" strokeWidth={1} stroke='#000' />
-                    <line x1={this.X(0)} x2={this.X(0)} y1="100" y2={102+this.Y(this.height)} strokeWidth={1} stroke='#000' />
+                    <line x1={this.X(0)} x2={this.width} y1="100" y2="100" strokeWidth={2} stroke='#000' />
+                    <line x1={this.X(0)} x2={this.X(0)} y1="100" y2={102+this.Y(this.height)} strokeWidth={2} stroke='#000' />
                     {lollipops}
                 </g>
 			</svg>

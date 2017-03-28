@@ -20,7 +20,7 @@ const options = {
     selection: [10,110]
 };
  
-class ClumpsView extends Component {
+class AnalyzeLayout extends Component {
   constructor(props){
 		super(props)
 
@@ -31,21 +31,14 @@ class ClumpsView extends Component {
   	return(
         <div>
             <Section title="3D">
-              <ProteinViewer />
-            </Section>
-            <Section title="domains and structures">
-              <DomainViewer />
+              <ProteinViewer sequence={sequence} {...options} />
             </Section>
             <Section title="mutations">
               <LollipopChart sequence={sequence} {...options} />
-            </Section>
-
-            <Section title="sequence">
-              <ReactSequenceViewer sequence={sequence} {...options} />
             </Section>
         </div>
   		)
   }
 }
 
-export default ClumpsView;
+export default AnalyzeLayout;

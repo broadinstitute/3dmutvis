@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import jquery from "jquery";
+import jQuery from 'jquery';
+window.$ = jQuery;
+
+const $3Dmol = require('3dmol');
 
 let wrapperStyle = {
 	position: 'relative',
@@ -16,7 +19,7 @@ class ProteinViewer extends Component {
   }
   componentDidMount(){
 	let config = { backgroundColor: 'white' };
-	let viewer = window.$3Dmol.createViewer( jquery(this.refs.viewer), config );
+	let viewer = $3Dmol.createViewer( jQuery(this.refs.viewer), config );
 	viewer.addModel(data, 'pdb');
   	let colorAsSnake = function(atom) {
 

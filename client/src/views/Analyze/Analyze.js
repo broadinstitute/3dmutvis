@@ -11,7 +11,7 @@ analyzeStore.initializeDummyData();
 export default class Analyze extends React.Component {
     render() {
     return <Provider loginStore={analyzeStore}>
-            <AnalyzeLayout/>
+            <AnalyzeLayout />
          </Provider>;
 
     }

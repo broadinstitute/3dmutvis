@@ -14,13 +14,13 @@ import logo from '../../svg/logo_white.svg'
 const styles = {
   title: {
     cursor: 'pointer',
-    fontSize: '30',
+    fontSize: 30,
     color:'white',
-    paddingLeft: '5'
+    paddingLeft: 5
   },
   title2: {
     cursor: 'pointer',
-    fontSize: '30',
+    fontSize: 30,
     color:'black',
   },
   logo:{
