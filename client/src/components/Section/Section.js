@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper'
+import IconButton from 'material-ui/IconButton';
 
 const sectionStyle = {
     marginLeft: "1%",
@@ -31,6 +32,20 @@ const contentStyle = {
     paddingTop: 2,
     paddingBottom: 2
 }
+
+const styles = {
+  smallIcon: {
+    width: 2,
+    height: 2,
+    float: 'right'
+  },
+  small: {
+    width: 10,
+    height: 10,
+    padding: 0,
+    float: 'right'
+  }
+}
 class Section extends Component {
 
 	render() {
@@ -38,7 +53,9 @@ class Section extends Component {
             <Paper style={sectionStyle}>
                 <div style={headerStyle}>
                     <h8>{this.props.title}</h8>
+                    
                 </div>
+
                 <div style={contentStyle}>
                     {this.props.children}
                 </div>

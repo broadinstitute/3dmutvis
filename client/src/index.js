@@ -51,7 +51,6 @@ ReactDOM.render(
                 <Router history={hashHistory}>
                     <Route path='/' component={App}>
                         <Route path='/search' component={Search} />
-                        <Route path='/login' component={Login} />
                         <Route path='/analyze/:uniprot' component={Analyze} />
                     </Route>
                 </Router>

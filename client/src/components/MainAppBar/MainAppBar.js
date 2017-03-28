@@ -42,19 +42,13 @@ const iconStyles = {
 const MainAppBar = () => (
     <Toolbar>
     <ToolbarGroup firstChild={true}>
-      <Link to='/'><img style={styles.logo} src={logo} /></Link>
+      <img style={styles.logo} src={logo} />
       <ToolbarTitle style={styles.title} text="clumps|view"/>
     </ToolbarGroup>
     <ToolbarGroup >
     
       <Link style={styles.link} to="/search">
          <FontIcon hoverColor={cyan300} color={white} className="material-icons" style={iconStyles}>search</FontIcon>
-      </Link>
-      <Link style={styles.link} to="/analyze">
-         <FontIcon hoverColor={cyan300} color={white} className="material-icons" style={iconStyles}>remove_red_eye</FontIcon>
-      </Link>
-      <Link style={styles.link} to="/login">
-         <FontIcon hoverColor={cyan300} color={white} className="material-icons" style={iconStyles}>person</FontIcon>
       </Link>
     </ToolbarGroup>
   </Toolbar>

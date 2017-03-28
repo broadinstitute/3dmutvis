@@ -9,12 +9,12 @@ class App extends Component {
     const currentLocation = this.props.location.pathname
     console.log(currentLocation)
     let renderappbar = null
-    if (currentLocation!=='/' && currentLocation!=='/login'){
-      renderappbar = <MainAppBar />
-    }
+//    if (currentLocation!=='/' && currentLocation!=='/login'){
+//      renderappbar = <MainAppBar />
+//    }
     return (
       <div>
-        {renderappbar}
+        <MainAppBar />
 	    	<div>
 	    		{this.props.children || <Login />}
 	    	</div>
